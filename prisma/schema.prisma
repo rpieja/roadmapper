@@ -10,11 +10,40 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model RoadmapItem {
+    id          String      @id @default(cuid())
+    summary     String
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    ownerId     String
+    startDate   DateTime
+    endDate     DateTime
+    scope       Scope       @default(CPO)
+    priority    Priority    @default(MEDIUM)
+    status      Status      @default(TODO)
 
-    @@index([name])
+    @@index([ownerId])
+}
+
+enum Scope {
+    CPO
+    EMP
+}
+
+enum Priority {
+    LOW
+    MEDIUM
+    HIGH
+    VERY_HIGH
+    CRITICAL
+}
+
+enum Status {
+    TODO
+    IN_PROGRESS
+    READY
+    DONE
+    DESIGN
+    CANCELLED
+    POSTPONED
 }
